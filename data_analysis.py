@@ -14,16 +14,15 @@ X = pd.read_csv('X_data.csv',index_col=0)
 Y = pd.read_csv('y_data.csv',index_col=0)
 
 # Using the sklearn libirary the training dataset is divided into training and testing 
-X_train, X_test, train_label, test_label = train_test_split(X, Y, train_size=0.75, random_state=0)
+train_data, test_data, train_label, test_label = train_test_split(X, Y, train_size=0.75, random_state=0)
 
 
 
 
 class Data_analysis:
-    def __init__(self, X, Y, X_train):
+    def __init__(self, X, Y):
         self.X = X
         self.Y = Y
-        self.X_train = X_train
     def data_explore(self):
        print(self.X.head())
        print('The column attributes in the training data is ', self.X.columns) 
@@ -32,10 +31,29 @@ class Data_analysis:
             self.X.loc[:, col].hist()
             plt.title(col)
             plt.show()
+    def skewness_reomved_plot(self):
+        for col in self.X.columns:
+            np.log(self.X.loc[:, col]).hist()
+            plt.title('Skewness removed'+ ' ' + col)
+            plt.show()
+    def standardizes_distrubution(self):
+        unskewed_data = np.log(self.X)
+        mean = unskewed_data.mean(axis = 0)
+        stdev = unskewed_data.std(axis = 0)
+        print(mean)
+        standarized_data = (unskewed_data - mean) / stdev
+        return standarized_data
    
-obj1 = Data_analysis(X, Y, X_train)
-obj1.data_explore()
-obj1.histogram_plot()
+train = Data_analysis(train_data, train_label)
+test = Data_analysis(test_data, test_label)
+train.data_explore()
+
 
 # Distribution of the training dataset 
+#train.histogram_plot()
+#train.skewness_removed_plot()
+standarized_train_data = train.standardizes_distrubution()
+standarized_test_data = test.standardizes_distrubution()
+
+
 
