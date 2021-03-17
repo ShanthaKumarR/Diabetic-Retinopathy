@@ -10,36 +10,32 @@ from sklearn.model_selection import train_test_split
 # X is the training dataset
 # y is lables
 
+X = pd.read_csv('X_data.csv',index_col=0)
+Y = pd.read_csv('y_data.csv',index_col=0)
 
+# Using the sklearn libirary the training dataset is divided into training and testing 
+X_train, X_test, train_label, test_label = train_test_split(X, Y, train_size=0.75, random_state=0)
 
-
-
-#To see the first 10 records in the training dataset pass 10 as the argument to the head()
-
-#print(y.head(10))
 
 
 
 class Data_analysis:
-    def __init__(self, dataset, label, index_col = 0):
-        self.dataset = dataset
-        self.label = label
-        self.index_col = index_col
-    def data(self):
-        X = pd.read_csv(self.dataset, self.index_col)
-        Y = pd.read_csv(self.label,self.index_col)
-        print(x.head())
-        return X
-
-obj1 = Data_analysis('X_data.csv', 'y_data.csv', 0)
-X = obj1.data()
-#print(X)
-
-
-
+    def __init__(self, X, Y, X_train):
+        self.X = X
+        self.Y = Y
+        self.X_train = X_train
+    def data_explore(self):
+       print(self.X.head())
+       print('The column attributes in the training data is ', self.X.columns) 
+    def histogram_plot(self):
+        for col in self.X.columns:
+            self.X.loc[:, col].hist()
+            plt.title(col)
+            plt.show()
+   
+obj1 = Data_analysis(X, Y, X_train)
+obj1.data_explore()
+obj1.histogram_plot()
 
 # Distribution of the training dataset 
 
-# Using the sklearn libirary the training dataset is divided into training and testing 
-
-#X_train_raw, X_test_raw, y_train, y_test = train_test_split(X, y, train_size=0.75, random_state=0)
