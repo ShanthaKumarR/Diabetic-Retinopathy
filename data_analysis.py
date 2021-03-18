@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-
+from sklearn.linear_model import LogisticRegression
 #function load_data which randomly generates data
 #from utils import load_data as pandas dataframe 
 
@@ -15,9 +15,6 @@ Y = pd.read_csv('y_data.csv',index_col=0)
 
 # Using the sklearn libirary the training dataset is divided into training and testing 
 train_data, test_data, train_label, test_label = train_test_split(X, Y, train_size=0.75, random_state=0)
-
-
-
 
 class Data_analysis:
     def __init__(self, X, Y):
@@ -43,6 +40,10 @@ class Data_analysis:
         print(mean)
         standarized_data = (unskewed_data - mean) / stdev
         return standarized_data
+
+    def model_fit(self):
+        model = LogisticRegression()
+        return model.fit(self.X, self.Y.values.ravel())
    
 train = Data_analysis(train_data, train_label)
 test = Data_analysis(test_data, test_label)
@@ -54,6 +55,8 @@ train.data_explore()
 #train.skewness_removed_plot()
 standarized_train_data = train.standardizes_distrubution()
 standarized_test_data = test.standardizes_distrubution()
+model = train.model_fit()
+print(model.predict(test_data))
 
 
 
