@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for post in posts %}
+    <h1> {{ post.Title }} </h1>
+    <p>By {{ post.author }} on {{ post.data_posted }}</p>
+    {% endfor %}
+{% endblock %}
