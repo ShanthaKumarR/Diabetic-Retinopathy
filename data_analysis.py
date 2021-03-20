@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+import joblib
+
 #function load_data which randomly generates data
 #from utils import load_data as pandas dataframe 
 
@@ -40,23 +42,28 @@ class Data_analysis:
         print(mean)
         standarized_data = (unskewed_data - mean) / stdev
         return standarized_data
-
     def model_fit(self):
         model = LogisticRegression()
-        return model.fit(self.X, self.Y.values.ravel())
-   
+        return model.fit(self.X, self.Y.values.ravel())  
+    def save_model(self, model,  path):
+        joblib.dump(model, path) 
+
 train = Data_analysis(train_data, train_label)
 test = Data_analysis(test_data, test_label)
 train.data_explore()
 
 
 # Distribution of the training dataset 
-#train.histogram_plot()
-#train.skewness_removed_plot()
+# train.histogram_plot()
+# train.skewness_removed_plot()
 standarized_train_data = train.standardizes_distrubution()
 standarized_test_data = test.standardizes_distrubution()
 model = train.model_fit()
-print(model.predict(test_data))
+train.save_model(model, './flask_app/lr_model.sav')
+
+loaded_model = joblib.load('lr_model.sav')
+
+print(loaded_model.predict(test_data))
 
 
 

@@ -1,7 +1,42 @@
 {% extends "layout.html" %}
 {% block content %}
     {% for post in posts %}
-    <h1> {{ post.Title }} </h1>
-    <p>By {{ post.author }} on {{ post.data_posted }}</p>
+    <h1><div style = "text-align:center"><font color = "green">{{post.Title }}</font></div></h1>
+    <hr>
+    <div style = "text-align:center"><p>By {{ post.author }}, {{ post.data_posted }}</p></div>
     {% endfor %}
+
+    <div class= 'container'>
+    <div class = 'row'>
+    <div class = 'col-6'>
+        <form method="POST" action="/displayResult">
+            <div class="form-group">
+                <label for="Age"><p class="font-weight-bold">Age</p></label>
+                <input type="text" name = "Age">
+                <small id = "ageHelp" class="form-text text-muted">Enter the age of the patient</small>
+            </div>
+
+            <div class="form-group">
+                <label for="Diastolic_BP"><p class="font-weight-bold">Diastolic_BP</p></label>
+                <input type="text" name = "Diastolic_BP">
+                <small id = "Diastolic_BPHelp" class="form-text text-muted">Enter the Diastolic_BP value of the patient</small>
+            </div>
+
+            <div class="form-group">
+                <label for="Systolic_BP"><p class="font-weight-bold">Systolic_BP</p></label>
+                <input type="text" name = "Systolic_BP">
+                <small id = "Systolic_BPHelp" class="form-text text-muted">Enter the Systolic_BP value of the patient</small>
+            </div>
+
+            <div class="form-group">
+                <label for="Cholestrol"><p class="font-weight-bold">Cholestrol</p></label>
+                <input type="text" name = "Cholestrol">
+                <small id = "CholestrolHelp" class="form-text text-muted">Enter the Cholestrol value of the patient</small>
+            </div>
+            <input class="btn btn-primary" type = 'submit' value="Predict">
+
+        </form>
+    </div>
+    </div>
+    </div>
 {% endblock %}

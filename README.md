@@ -3,3 +3,5 @@
 
 # Module data_analysis
 In this module class data_analysis with additional methods to analysis the data is created.
+
+

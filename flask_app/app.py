@@ -1,9 +1,11 @@
-from flask import Flask, render_template, requests
+from flask import Flask, render_template, request
+import joblib
+#import pandas as pd 
+import numpy as np 
 
 posts = [
-    {'author': 'Rajasekar', 'data_posted': 'March 19, 2021', 'Title': 'AI for medicine'},
-    {'author':'Raja sekar', 'data_posted': 'March 20, 2021', 'Title': 'Machine learning for prognosis'}
-]
+    {'author': 'Raja sekar Shantha kumar', 'data_posted': 'updated on March 19, 2021', 'Title': 'Diabetic Retinopathy classification (AI for medicine)' 
+    ,'Algorithm': 'Logistic regression'}]
 
 app = Flask(__name__)
 
@@ -11,9 +13,29 @@ app = Flask(__name__)
 def home(): 
     return render_template('home.html', posts = posts, title='Machine_learning')
 
-@app.route('/displayResult', methoda = ['GET', 'POST'])
+@app.route('/displayResult', methods = ['GET', 'POST'])
 def displayResult():   
-    return render_template('predection.html')
+    if request.method == 'POST':
+        try:
+            Age = int(request.form['Age'])
+            
+            Diastolic_BP = float(request.form['Diastolic_BP'])
+            Systolic_BP = float(request.form['Systolic_BP'])
+            Cholestrol = float(request.form['Cholestrol'])
+            test_data = [Age, Systolic_BP, Diastolic_BP, Cholestrol]
+            test_data = np.array(test_data)
+            test_data = test_data.reshape(1, -1)
+            model = open('lr_model.sav', "rb")
+            model = joblib.load(model)
+            result = model.predict(test_data)
+            if result ==0:
+                result = "Yes, The patient is affected by Diabetic Retinopathy"
+            else:
+                result = "No, The patient is not affected by Diabetic Retinopathy"
+        except ValueError:
+            return 'please check the entered value'
+    return render_template('displayResult.html', prediction = result, title='Result')
+
 
 if __name__=="__main__":
     app.run(debug=True)
