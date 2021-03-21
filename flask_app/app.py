@@ -29,9 +29,9 @@ def displayResult():
             model = joblib.load(model)
             result = model.predict(test_data)
             if result ==0:
-                result = "Yes, The patient is affected by Diabetic Retinopathy"
+                result = "Yes, The patient is eventually get the disease Diabetic Retinopathy"
             else:
-                result = "No, The patient is not affected by Diabetic Retinopathy"
+                result = "No, The patient is not eventually get the disease Diabetic Retinopathy"
         except ValueError:
             return 'please check the entered value'
     return render_template('displayResult.html', prediction = result, title='Result')
